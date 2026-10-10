@@ -1,0 +1,64 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - platform: windows-latest
+            target: windows/amd64
+            artifact: build/bin/prom-editor-amd64-installer.exe
+          - platform: macos-latest
+            target: darwin/universal
+            artifact: build/bin/prom-editor.app
+    runs-on: ${{ matrix.platform }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version: "1.24"
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: 安装 Wails CLI
+        run: go install github.com/wailsapp/wails/v2/cmd/wails@latest
+
+      - name: 安装 NSIS（Windows 安装包）
+        if: matrix.platform == 'windows-latest'
+        run: choco install nsis -y
+
+      - name: 安装 create-dmg（macOS 镜像）
+        if: matrix.platform == 'macos-latest'
+        run: brew install create-dmg
+
+      - name: 构建 ${{ matrix.target }}
+        run: |
+          wails build -platform ${{ matrix.target }} -ldflags "-s -w" -clean ${{ matrix.platform == 'windows-latest' && '-nsis' || '' }}
+
+      - name: 生成 DMG（macOS）
+        if: matrix.platform == 'macos-latest'
+        run: |
+          create-dmg \
+            --volname "Prom Config Editor" \
+            --window-pos 200 120 --window-size 800 400 --icon-size 100 \
+            --app-drop-link 600 185 \
+            build/bin/prom-editor.dmg \
+            build/bin/prom-editor.app
+
+      - name: 上传产物
+        uses: actions/upload-artifact@v4
+        with:
+          name: prom-editor-${{ matrix.target }}
+          path: |
+            ${{ matrix.artifact }}
+            build/bin/*.dmg
+          if-no-files-found: error

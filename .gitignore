@@ -1,0 +1,39 @@
+# ---- Go / Wails ----
+# 编译产物
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+/prom-editor
+/build/bin/
+/build/darwin/
+build/bin/
+build/darwin/
+
+# Go 测试与覆盖率
+*.test
+*.out
+/vendor/
+
+# ---- 前端 (Node) ----
+frontend/node_modules/
+frontend/dist/
+frontend/dist-ssr/
+frontend/*.local
+
+# ---- 编辑器/系统杂项 ----
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/*
+!.vscode/extensions.json
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# ---- 日志与临时文件 ----
+*.log
+/tmp/
