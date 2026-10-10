@@ -6,6 +6,10 @@ A cross-platform desktop GUI for visually editing remote Prometheus configuratio
 
 Built with **Go + Wails v2** (backend) and **Vue 3 + TypeScript** (frontend). Runs on Windows, macOS and Linux.
 
+## Screenshot
+
+![Prom Config Editor — YAML view with navigable outline and a completed sync deploy log](example.png)
+
 ## Features
 
 - **Server connection management** — SSH access via password or private key (passphrase supported); credentials are stored in the OS keychain (Windows Credential Manager / macOS Keychain / Linux Secret Service) and are never readable after saving

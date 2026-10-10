@@ -24,14 +24,14 @@ cd frontend && npm run dev
 ## Windows 发布
 
 ```bash
-# 纯可执行文件（build/bin/prom-editor.exe）
+# 纯可执行文件（build/bin/prom-config-editor.exe）
 wails build -ldflags "-s -w"
 
-# NSIS 安装包（build/bin/prom-editor-amd64-installer.exe）
+# NSIS 安装包（build/bin/prom-config-editor-amd64-installer.exe）
 wails build -nsis -ldflags "-s -w"
 ```
 
-分发 `prom-editor-amd64-installer.exe` 即可，安装包自带 WebView2 引导。
+分发 `prom-config-editor-amd64-installer.exe` 即可，安装包自带 WebView2 引导。
 
 ## macOS 发布
 
@@ -46,8 +46,8 @@ create-dmg \
   --volname "Prom Config Editor" \
   --window-pos 200 120 --window-size 800 400 --icon-size 100 \
   --app-drop-link 600 185 \
-  build/bin/prom-editor.dmg \
-  build/bin/prom-editor.app
+  build/bin/prom-config-editor.dmg \
+  build/bin/prom-config-editor.app
 ```
 
 没有 Mac 时：推 `v*` 标签由 GitHub Actions 的 macOS 运行器自动构建（见 `.github/workflows/release.yml`）。
@@ -64,4 +64,4 @@ Actions 自动产出：Windows NSIS 安装包 + macOS 通用 `.app`/`.dmg`，作
 ## 代码签名（可选增强）
 
 - Windows：`-ldflags "-H windowsgui"` 之外，用 `signtool sign /fd sha256 /a <exe>` 签名
-- macOS：`codesign --deep --sign "Developer ID Application: <名字>" prom-editor.app`，公证用 `xcrun notarytool`
+- macOS：`codesign --deep --sign "Developer ID Application: <名字>" prom-config-editor.app`，公证用 `xcrun notarytool`

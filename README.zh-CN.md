@@ -6,6 +6,10 @@
 
 后端基于 **Go + Wails v2**，前端基于 **Vue 3 + TypeScript**，支持 Windows / macOS / Linux。
 
+## 界面预览
+
+![Prom 配置编辑器 — YAML 编辑视图、目录导航与同步部署日志](example.png)
+
 ## 功能特性
 
 - **服务器连接管理** — 支持密码和私钥（含口令）两种 SSH 认证方式；凭据只存操作系统级安全存储（Windows 凭据管理器 / macOS Keychain / Linux Secret Service），保存后不可回读
