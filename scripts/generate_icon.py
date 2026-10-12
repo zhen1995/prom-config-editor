@@ -7,22 +7,17 @@ from PIL import Image, ImageDraw
 
 S = 1024  # 画布
 
-# ---- 对角渐变底色（#7c6cff -> #9e8cff，与应用主色一致）----
+# ---- 满幅渐变底色（#7c6cff -> #9e8cff，与应用主色一致）----
+# Windows 桌面图标惯例为全出血方块（圆角由系统在需要处裁剪），
+# 避免圆角外的透明区域在 ICO/资源管理器中渲染成黑色四角。
 C1 = (124, 108, 255)
 C2 = (158, 140, 255)
-base = Image.new("RGB", (S, S), C1)
-px = base.load()
+icon = Image.new("RGB", (S, S), C1)
+px = icon.load()
 for y in range(S):
     for x in range(0, S, 1):
         t = (x + y) / (2 * S)
         px[x, y] = tuple(int(C1[i] + (C2[i] - C1[i]) * t) for i in range(3))
-
-# ---- 圆角方块遮罩 ----
-mask = Image.new("L", (S, S), 0)
-md = ImageDraw.Draw(mask)
-md.rounded_rectangle([0, 0, S - 1, S - 1], radius=230, fill=255)
-icon = Image.new("RGB", (S, S), (0, 0, 0))
-icon.paste(base, (0, 0), mask)
 
 
 def cubic(p0, p1, p2, p3, n=60):
